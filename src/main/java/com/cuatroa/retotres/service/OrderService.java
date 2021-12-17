@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- * @author desarrolloextremo
+ * @author Julian
  */
 @Service
 public class OrderService {
@@ -26,26 +26,11 @@ public class OrderService {
     }
 
     public Order create(Order order) {
-        
-        //obtiene el maximo id existente en la coleccion
-        Optional<Order> orderIdMaxima = orderRepository.lastUserId();
-        
-        //si el id de la orden que se recibe como parametro es nulo, entonces valida el maximo id existente en base de datos
         if (order.getId() == null) {
-            //valida el maximo id generado, si no hay ninguno aun el primer id sera 1
-            if (orderIdMaxima.isEmpty())
-                order.setId(1);
-            //si retorna informacion suma 1 al maximo id existente y lo asigna como el codigo de la orden
-            else
-                order.setId(orderIdMaxima.get().getId() + 1);
-        }
-        
-        Optional<Order> e = orderRepository.getOrder(order.getId());
-        if (e.isEmpty()) {
-            return orderRepository.create(order);            
-        }else{
             return order;
-        }        
+        } else {
+            return orderRepository.create(order);
+        }
     }
 
     public Order update(Order order) {
@@ -78,12 +63,19 @@ public class OrderService {
     public List<Order> findByZone(String zona) {
         return orderRepository.findByZone(zona);
     }
-//
-//    public List<Order> ordersSalesManByDate(String dateStr, int id) {
-//        return orderRepository.ordersSalesManByDate(dateStr, id);
-//    }
-//    
-//    public List<Order> ordersSalesManByState(String state, Integer id) {
-//        return orderRepository.ordersSalesManByState(state, id);
-//    }
+
+    //Reto 4: Ordenes de un asesor
+    public List<Order> ordersSalesManByID(int id) {
+        return orderRepository.ordersSalesManByID(id);
+    }
+    
+    //Reto 4: Ordenes de un asesor x Fecha
+    public List<Order> ordersSalesManByDate(String dateStr, int id) {
+        return orderRepository.ordersSalesManByDate(dateStr, id);
+    }
+    
+    //Reto 4: Ordenes de un asesor x Estado
+    public List<Order> ordersSalesManByState(String state, Integer id) {
+        return orderRepository.ordersSalesManByState(state, id);
+    }
 }

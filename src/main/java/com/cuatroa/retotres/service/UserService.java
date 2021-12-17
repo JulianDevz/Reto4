@@ -10,7 +10,7 @@ import java.util.Optional;
 
 /**
  *
- * @author desaextremo
+ * @author Julain
  */
 @Service
 public class UserService {
@@ -27,31 +27,20 @@ public class UserService {
     }
 
     public User create(User user) {
-        
-        //obtiene el maximo id existente en la coleccion
-        Optional<User> userIdMaximo = userRepository.lastUserId();
-        
-        //si el id del Usaurio que se recibe como parametro es nulo, entonces valida el maximo id existente en base de datos
         if (user.getId() == null) {
-            //valida el maximo id generado, si no hay ninguno aun el primer id sera 1
-            if (userIdMaximo.isEmpty())
-                user.setId(1);
-            //si retorna informacion suma 1 al maximo id existente y lo asigna como el codigo del usuario
-            else
-                user.setId(userIdMaximo.get().getId() + 1);
-        }
-        
-        Optional<User> e = userRepository.getUser(user.getId());
-        if (e.isEmpty()) {
-            if (emailExists(user.getEmail())==false){
-                return userRepository.create(user);
+            return user;            
+        }else {
+            Optional<User> e = userRepository.getUser(user.getId());
+            if (e.isEmpty()) {
+                if (emailExists(user.getEmail())==false){
+                    return userRepository.create(user);
+                }else{
+                    return user;
+                }
             }else{
                 return user;
-            }
-        }else{
-            return user;
+            }           
         }
-        
     }
 
     public User update(User user) {
@@ -111,5 +100,9 @@ public class UserService {
         } else {
             return usuario.get();
         }
+    }
+    
+    public List<User> birthtDayList(String monthBirthtDay) {
+        return userRepository.birthtDayList(monthBirthtDay);
     }
 }

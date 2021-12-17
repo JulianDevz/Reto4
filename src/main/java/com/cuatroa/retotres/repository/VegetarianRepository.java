@@ -9,7 +9,7 @@ import com.cuatroa.retotres.repository.crud.VegetarianCrudRepository;
 
 /**
  *
- * @author desaextremo
+ * @author Julian
  */
 @Repository
 public class VegetarianRepository {
@@ -34,5 +34,9 @@ public class VegetarianRepository {
     
     public void delete(Vegetarian accesory) {
         vegetarianCrudRepository.delete(accesory);
+    }
+    
+    public List<Vegetarian> productByPrice(double precio) {
+	return vegetarianCrudRepository.findByPriceLessThanEqual(precio);
     }
 }

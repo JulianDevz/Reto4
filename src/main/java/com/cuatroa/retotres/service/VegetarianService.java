@@ -7,20 +7,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
  *
- * @author desaextremo
+ * @author Julian
  */
 @Service
 public class VegetarianService {
 
     @Autowired
     private VegetarianRepository vegetarianRepository;
-
-    @Autowired
-    private MongoTemplate mongoTemplate;
 
     public List<Vegetarian> getAll() {
         return vegetarianRepository.getAll();
@@ -80,5 +76,9 @@ public class VegetarianService {
             return true;
         }).orElse(false);
         return aBoolean;
+    }
+    
+    public List<Vegetarian> productByPrice(double price) {
+        return vegetarianRepository.productByPrice(price);
     }
 }

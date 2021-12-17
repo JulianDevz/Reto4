@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
  *
@@ -17,6 +18,9 @@ public class UserRepository {
 
     @Autowired
     private UserCrudRepository userCrudRepository;
+    
+    @Autowired
+    private MongoTemplate mongoTemplate;
     
     public List<User> getAll() {
         return (List<User>) userCrudRepository.findAll();
@@ -50,5 +54,9 @@ public class UserRepository {
     
     public Optional<User> lastUserId(){
         return userCrudRepository.findTopByOrderByIdDesc();
+    }
+    
+    public List<User> birthtDayList(String monthBirthtDay) {
+        return userCrudRepository.findByMonthBirthtDay(monthBirthtDay);
     }
 }
